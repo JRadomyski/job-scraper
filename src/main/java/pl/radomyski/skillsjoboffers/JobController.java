@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController("/api")
 public class JobController {
@@ -32,6 +33,11 @@ public class JobController {
             }
         }
 
-        return skillCount;
+        return (Map<String, Integer>) skillCount.entrySet().stream()
+                .filter(entry -> entry.getValue() >= 10)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
     }
 }
